@@ -1,5 +1,5 @@
 <?php
-namespace AiraSoftDev\Utilities;
+namespace AiraSoftDev\LaravelApiResponse\Utilities;
 
 use AiraSoftDev\LaravelApiResponse\ApiGenerate;
 

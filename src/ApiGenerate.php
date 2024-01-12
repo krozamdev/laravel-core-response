@@ -1,7 +1,7 @@
 <?php
 namespace AiraSoftDev\LaravelApiResponse;
 
-use AiraSoftDev\Contracts\ApiContract;
+use AiraSoftDev\LaravelApiResponse\Contracts\ApiContract;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 

@@ -1,5 +1,5 @@
 <?php
-namespace AiraSoftDev\Contracts;
+namespace AiraSoftDev\LaravelApiResponse\Contracts;
 
 use Illuminate\Http\JsonResponse;
 
