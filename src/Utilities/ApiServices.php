@@ -3,7 +3,7 @@ namespace AiraSoftDev\Utilities;
 
 use AiraSoftDev\LaravelApiResponse\ApiGenerate;
 
-class Api {
+class ApiServices {
     protected $api;
     public function __construct(ApiGenerate $api)
     {
