@@ -1,0 +1,36 @@
+{
+    "name": "krozamdev/laravel-core-response",
+    "description": "Laravel Core Response",
+    "keywords": [
+        "krozamdev",
+        "laravel",
+        "laravel api",
+        "laravel api response",
+        "laravel api response generator",
+        "api response generator",
+        "api response json",
+        "api response json generator"
+    ],
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "AiraSoftDev\\LaravelApiResponse\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "krozamdev",
+            "email": "ikromzamzami@gmail.com",
+            "role": "Owner"
+        }
+    ],
+    "require": {
+        "php": "^7.3|^8.0",
+        "laravel/framework": "^7|^8|^9|^10"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
