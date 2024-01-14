@@ -124,6 +124,14 @@ class ApiGenerate implements ApiContract {
                             $result = 409;
                         }
                     }
+                    if (method_exists($this->data,'getMessage')) {
+                        if (preg_match('/Cannot delete or update a parent row: a foreign key constraint fails/i',$this->data->getMessage())) {
+                            $result = 409;
+                            if (!$this->debug) {
+                                $this->message("The data cannot be updated or deleted as it is associated or linked to other data.");
+                            }
+                        }
+                    }
                 }
             }
         }else{
