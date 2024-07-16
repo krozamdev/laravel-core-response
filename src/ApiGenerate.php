@@ -48,7 +48,7 @@ class ApiGenerate implements ApiContract {
         return $this;
     }
 
-    public function data(mixed $data) : ApiGenerate
+    public function data($data) : ApiGenerate
     {
         $this->data = $data;
         return $this;
@@ -121,6 +121,14 @@ class ApiGenerate implements ApiContract {
                     }
                     if (method_exists($this->data,'getMessage')) {
                         if (preg_match('/already exists|Conflict|Duplicate entry/i',$this->data->getMessage())) {
+                            $pattern = "/for key '(.*?)' \(SQL:/";
+                            preg_match($pattern, $this->data->getMessage(), $matches);
+                            if (isset($matches[1])) {
+                                $tempField = explode('.',$matches[1]);
+                                $finalMessage = str_replace(["$tempField[0]_","_unique"],"",$tempField[1]);
+                                $finalMessage = ucwords(str_replace("_"," ",$finalMessage)." already exists");
+                                $this->message($finalMessage);
+                            }
                             $result = 409;
                         }
                     }

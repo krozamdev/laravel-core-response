@@ -11,7 +11,7 @@ interface ApiContract {
     function isUpdate() : ApiContract;
     function isDelete() : ApiContract;
     function failed() : ApiContract;
-    function data(mixed $data) : ApiContract;
+    function data($data) : ApiContract;
     function message(string $message) : ApiContract;
     function time() : ApiContract;
     function CustomKey(array $array) : ApiContract;
