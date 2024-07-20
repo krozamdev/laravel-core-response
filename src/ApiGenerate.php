@@ -1,9 +1,11 @@
 <?php
-namespace AiraSoftDev\LaravelApiResponse;
+namespace krozamdev\LaravelApiResponse;
 
-use AiraSoftDev\LaravelApiResponse\Contracts\ApiContract;
+use krozamdev\LaravelApiResponse\Contracts\ApiContract;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use krozamdev\LaravelApiResponse\Utilities\CustomValidator;
 
 class ApiGenerate implements ApiContract {
     protected bool $debug = false;
@@ -70,13 +72,14 @@ class ApiGenerate implements ApiContract {
             $setTime = false;
             $this->time = Carbon::now();
         }
+        $metaKeyInfo = $this->done ? "message" : "errors";
         $this->dataFinal["metadata"] = [
             "time" => [
                 "value"=> $this->time->diffInMilliseconds(Carbon::now())." ms",
                 "setTimeBeforeActions"=> $setTime
             ],
             "status_code" => $this->dataFinal["status_code"],
-            "message" => $this->message
+            $metaKeyInfo => $this->message
         ];
         unset($this->dataFinal["status_code"]);
         return response()->json($this->dataFinal,$this->code);
@@ -121,13 +124,14 @@ class ApiGenerate implements ApiContract {
                     }
                     if (method_exists($this->data,'getMessage')) {
                         if (preg_match('/already exists|Conflict|Duplicate entry/i',$this->data->getMessage())) {
-                            $pattern = "/for key '(.*?)' \(SQL:/";
+                            $pattern = "/for key '(.*?)' \(SQL:/"; // for mysql | mariadb
                             preg_match($pattern, $this->data->getMessage(), $matches);
                             if (isset($matches[1])) {
                                 $tempField = explode('.',$matches[1]);
-                                $finalMessage = str_replace(["$tempField[0]_","_unique"],"",$tempField[1]);
-                                $finalMessage = ucwords(str_replace("_"," ",$finalMessage)." already exists");
-                                $this->message($finalMessage);
+                                $finalMessage = str_replace([$tempField[0] . '_', '_unique'], '', $tempField[1]);
+                                $formattedMessage = ucwords(str_replace(['_', '-'], ' ', $finalMessage)) . ' already exists';
+                                $resultArray[$finalMessage] = [$formattedMessage]; // set default format errors
+                                $this->message($resultArray);
                             }
                             $result = 409;
                         }
@@ -157,7 +161,7 @@ class ApiGenerate implements ApiContract {
         return $this;
     }
 
-    public function message(string $message) : ApiGenerate
+    public function message($message) : ApiGenerate
     {
         $this->message = $message;
         return $this;
@@ -168,22 +172,16 @@ class ApiGenerate implements ApiContract {
         if (!$this->message) {
             if (!$this->done) {
                 if ($this->debug) {
-                    $this->message = $this->data->getMessage();
+                    $this->message = $this->transformFinalMessage($this->data->getMessage());
                 }else{
-                    switch ($this->code) {
-                        case 422:
-                            $msg = "Validation error occurred. Please complete the required parameters.";
-                            break;
-
+                    switch ($this->code) {                        
                         case 409:
-                            $msg = "Data already exists.";
-                            break;
-                            
                         case 400:
                         case 401:
                         case 404:
                         case 403:
-                            $msg = $this->data->getMessage();
+                        case 422:
+                            $msg = $this->transformFinalMessage($this->data->getMessage());
                             break;
                         
                         default:
@@ -255,5 +253,17 @@ class ApiGenerate implements ApiContract {
                 "data" => $response
             ];
         }
+    }
+
+    public function validate(Request $request, array $rules) : array
+    {
+        return CustomValidator::validate($request,$rules);
+    }
+
+    private function transformFinalMessage(string $message) {
+        if ($array = json_decode($message, true)) {
+            return $array;
+        }
+        return $message;
     }
 }

@@ -1,7 +1,7 @@
 <?php
-namespace AiraSoftDev\LaravelApiResponse\Utilities;
+namespace krozamdev\LaravelApiResponse\Utilities;
 
-use AiraSoftDev\LaravelApiResponse\ApiGenerate;
+use krozamdev\LaravelApiResponse\ApiGenerate;
 
 class ApiServices {
     protected $api;
