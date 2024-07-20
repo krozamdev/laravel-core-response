@@ -1,5 +1,5 @@
 <?php
-namespace AiraSoftDev\LaravelApiResponse\Contracts;
+namespace krozamdev\LaravelApiResponse\Contracts;
 
 use Illuminate\Http\JsonResponse;
 
@@ -12,7 +12,7 @@ interface ApiContract {
     function isDelete() : ApiContract;
     function failed() : ApiContract;
     function data($data) : ApiContract;
-    function message(string $message) : ApiContract;
+    function message($message) : ApiContract;
     function time() : ApiContract;
     function CustomKey(array $array) : ApiContract;
     function paginationKey(array $array) : ApiContract;

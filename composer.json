@@ -1,5 +1,5 @@
 {
-    "name": "krozamdev/laravel-core-response",
+    "name": "krozamdev/laravel-api-response",
     "description": "Laravel Core Response",
     "keywords": [
         "krozamdev",
@@ -14,13 +14,13 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "AiraSoftDev\\LaravelApiResponse\\": "src/"
+            "krozamdev\\LaravelApiResponse\\": "src/"
         }
     },
     "authors": [
         {
             "name": "krozamdev",
-            "email": "ikromzamzami@gmail.com",
+            "email": "krozamdev@gmail.com",
             "role": "Owner"
         }
     ],
