@@ -8,6 +8,6 @@ class ApiServices {
     public function __construct(ApiGenerate $api)
     {
         $this->api = $api;
-        $this->api->debug(env("APP_DEBUG",false));
+        $this->api->setDebug(env("APP_DEBUG",false));
     }
 }

@@ -4,8 +4,10 @@ namespace krozamdev\LaravelApiResponse;
 use krozamdev\LaravelApiResponse\Contracts\ApiContract;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use krozamdev\LaravelApiResponse\Utilities\CustomValidator;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use krozamdev\LaravelApiResponse\Exceptions\CustomException;
 
 class ApiGenerate implements ApiContract {
     protected $debug = false;
